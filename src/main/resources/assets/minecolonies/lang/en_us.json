@@ -1262,6 +1262,16 @@
   "advancements.minecolonies.complete_build_request_1_florist.description": "The floral hut will use compost, or other types of \"bonemeal\" to grow you all those pesky flowers your buildings tend to want!",
   "advancements.minecolonies.complete_build_request_1_enchanter.title": "Enchanting Experience",
   "advancements.minecolonies.complete_build_request_1_enchanter.description": "The enchanter hut will consume Ancient tomes and Other workers experience to produce enchanted books for your personal usage!",
+  "advancements.minecolonies.citizen_eat_food_all.title": "Citizen Banquet",
+  "advancements.minecolonies.citizen_eat_all.description": "Feed citizens with cooked mutton, steak, pork, cod, chicken, pies and bread",
+  "advancements.minecolonies.complete_build_request_1_university.title": "Build the University title placeholder",
+  "advancements.minecolonies.complete_build_request_1_university.description": "Completed building of University placeholder",
+  "advancements.minecolonies.complete_build_request_1_school.title": "Build a school title placeholder",
+  "advancements.minecolonies.complete_build_request_1_school.description": "Build a school desc placeholder",
+  "advancements.minecolonies.complete_build_request_1_hospital.title": "Build a hospital title placeholder",
+  "advancements.minecolonies.complete_build_request_1_hospital.description": "Build a hospital description placeholder",
+
+
 
   "block.minecolonies.blockhutflorist.name": "Flowershop",
 

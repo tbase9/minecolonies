@@ -2,22 +2,22 @@
   "parent": "minecolonies:minecolonies/complete_build_request_1_citizen",
   "display": {
     "icon": {
-      "item": "minecolonies:blockhutlibrary"
+      "item": "minecolonies:blockhutschool"
     },
     "title": {
-      "translate": "advancements.minecolonies.complete_build_request_1_library.title"
+      "translate": "advancements.minecolonies.complete_build_request_1_school.title"
     },
     "description": {
-      "translate": "advancements.minecolonies.complete_build_request_1_library.description"
+      "translate": "advancements.minecolonies.complete_build_request_1_school.description"
     },
     "show_toast": true,
     "announce_to_chat": true
   },
   "criteria": {
-    "library": {
+    "university": {
       "trigger": "minecolonies:complete_build_request",
       "conditions": {
-        "hut_name": "library",
+        "hut_name": "School",
         "level": 1
       }
     }

@@ -1,0 +1,89 @@
+{
+  "parent": "minecolonies:minecolonies/citizen_eat_food_first",
+  "display": {
+    "icon": {
+      "item": "minecraft:cake"
+    },
+    "title": {
+      "translate": "advancements.minecolonies.citizen_eat_food_all.title"
+    },
+    "description": {
+      "translate": "advancements.minecolonies.citizen_eat_all.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "frame": "goal"
+  },
+  "criteria": {
+    "citizen_eat_cooked_cod": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:cooked_cod"
+          }
+        ]
+      }
+    },
+    "citizen_eat_cooked_beef": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:cooked_beef"
+          }
+        ]
+      }
+    },
+    "citizen_eat_cooked_pork": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:cooked_porkchop"
+          }
+        ]
+      }
+    },
+    "citizen_eat_cooked_chicken": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:cooked_chicken"
+          }
+        ]
+      }
+    },
+    "citizen_eat_cooked_mutton": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:cooked_mutton"
+          }
+        ]
+      }
+    },
+    "citizen_eat_pumpkin_pie": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:pumpkin_pie"
+          }
+        ]
+      }
+    },
+    "citizen_eat_bread": {
+      "trigger": "minecolonies:citizen_eat_food",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:bread"
+          }
+        ]
+      }
+    }
+  }
+}
