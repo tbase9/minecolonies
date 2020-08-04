@@ -30,9 +30,27 @@ public class TickingEvent<S extends IState> extends TickingTransition<S> impleme
       @NotNull final IStateEventType eventType,
       @NotNull final BooleanSupplier condition,
       @NotNull final Supplier<S> nextState,
-      @NotNull final int tickRate)
+      final int tickRate)
     {
         super(condition, nextState, () -> tickRate);
+        this.eventType = eventType;
+    }
+
+    /**
+     * Creates a new TickingEvent
+     *
+     * @param eventType The type of the event
+     * @param condition condition when the event applies
+     * @param nextState state the event transitions into
+     * @param tickRate  tickrate at which the event is checked
+     */
+    protected TickingEvent(
+      @NotNull final IStateEventType eventType,
+      @NotNull final BooleanSupplier condition,
+      @NotNull final Supplier<S> nextState,
+      @NotNull final Supplier<Integer> tickRate)
+    {
+        super(condition, nextState, tickRate);
         this.eventType = eventType;
     }
 

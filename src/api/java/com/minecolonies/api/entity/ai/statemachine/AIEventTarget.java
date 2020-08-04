@@ -40,6 +40,15 @@ public class AIEventTarget extends TickingEvent<IAIState>
 
     public AIEventTarget(
       @NotNull final AIBlockingEventType eventType,
+      @NotNull final BooleanSupplier predicate,
+      @NotNull final IAIState IAIState,
+      @NotNull final Supplier<Integer> tickRate)
+    {
+        super(eventType, predicate, () -> IAIState, tickRate);
+    }
+
+    public AIEventTarget(
+      @NotNull final AIBlockingEventType eventType,
       @NotNull final Supplier<IAIState> action,
       final int tickRate)
     {
