@@ -19,13 +19,13 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
      * The tickrate at which the Target should be called, e.g. tickRate = 20 means call function every 20 Ticks
      */
     @NotNull
-    private int tickRate;
+    private Supplier<Integer> tickRate;
 
     /**
      * The random offset for Ticks, so that AITargets get more distributed activations on server ticks
      */
     @NotNull
-    private final int tickOffset;
+    private final Supplier<Integer> tickOffset;
 
     /**
      * The variant used upon creation of the AITarget to uniformly distribute the Tick offset Static variable counter that changes with each AITarget creation and affects the next
@@ -46,16 +46,38 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
       @NotNull final S state,
       @NotNull final BooleanSupplier condition,
       @NotNull final Supplier<S> nextState,
-      @NotNull final int tickRate)
+      @NotNull final Supplier<Integer> tickRate)
     {
         super(state, condition, nextState);
-
-        // Limit rates
-        this.tickRate = tickRate > MAX_TICKRATE ? MAX_TICKRATE : tickRate;
-        this.tickRate = this.tickRate < 1 ? 1 : this.tickRate;
-
+        this.tickRate = tickRate;
         // Calculate offSet % tickRate already to not have redundant calculations later
-        this.tickOffset = tickOffsetVariant % this.tickRate;
+        this.tickOffset = () -> tickOffsetVariant % getTickRate();
+        // Increase variant for next AITarget and reset variant at a certain point
+        tickOffsetVariant++;
+        if (tickOffsetVariant >= MAX_TICKRATE_VARIANT)
+        {
+            tickOffsetVariant = 0;
+        }
+    }
+
+    /**
+     * Create a new Transition with tickrate
+     *
+     * @param state     State to apply the transition in
+     * @param condition Condition checked before going to the next state
+     * @param nextState The next state this transition leads into
+     * @param tickRate  The expected tickrate at which this transition should be checked.
+     */
+    public TickingTransition(
+      @NotNull final S state,
+      @NotNull final BooleanSupplier condition,
+      @NotNull final Supplier<S> nextState,
+      final int tickRate)
+    {
+        super(state, condition, nextState);
+        this.tickRate = () -> tickRate;
+        // Calculate offSet % tickRate already to not have redundant calculations later
+        this.tickOffset = () -> tickOffsetVariant % getTickRate();
         // Increase variant for next AITarget and reset variant at a certain point
         tickOffsetVariant++;
         if (tickOffsetVariant >= MAX_TICKRATE_VARIANT)
@@ -74,16 +96,12 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
     protected TickingTransition(
       @NotNull final BooleanSupplier condition,
       @NotNull final Supplier<S> nextState,
-      @NotNull final int tickRate)
+      @NotNull final Supplier<Integer> tickRate)
     {
         super(condition, nextState);
-
-        // Limit rates
-        this.tickRate = tickRate > MAX_TICKRATE ? MAX_TICKRATE : tickRate;
-        this.tickRate = this.tickRate < 1 ? 1 : this.tickRate;
-
+        this.tickRate = tickRate;
         // Calculate offSet % tickRate already to not have redundant calculations later
-        this.tickOffset = tickOffsetVariant % this.tickRate;
+        this.tickOffset = () -> tickOffsetVariant % getTickRate();
         // Increase variant for next AITarget and reset variant at a certain point
         tickOffsetVariant++;
         if (tickOffsetVariant >= MAX_TICKRATE_VARIANT)
@@ -100,7 +118,7 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
     @Override
     public int getTickRate()
     {
-        return tickRate;
+        return Math.min(Math.max(this.tickRate.get(), 1), MAX_TICKRATE);
     }
 
     /**
@@ -109,9 +127,9 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
      * @param tickRate rate at which the AITarget should tick
      */
     @Override
-    public void setTickRate(@NotNull final int tickRate)
+    public void setTickRate(final int tickRate)
     {
-        this.tickRate = tickRate;
+        this.tickRate = () -> tickRate;
     }
 
     /**
@@ -122,6 +140,6 @@ public class TickingTransition<S extends IState> extends BasicTransition<S> impl
     @Override
     public int getTickOffset()
     {
-        return tickOffset;
+        return tickOffset.get();
     }
 }

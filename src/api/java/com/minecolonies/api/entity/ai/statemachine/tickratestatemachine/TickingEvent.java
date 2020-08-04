@@ -32,7 +32,7 @@ public class TickingEvent<S extends IState> extends TickingTransition<S> impleme
       @NotNull final Supplier<S> nextState,
       @NotNull final int tickRate)
     {
-        super(condition, nextState, tickRate);
+        super(condition, nextState, () -> tickRate);
         this.eventType = eventType;
     }
 

@@ -28,7 +28,7 @@ public class AITarget extends TickingTransition<IAIState>
       @NotNull final Supplier<IAIState> action,
       final int tickRate)
     {
-        super(state, predicate, action, tickRate);
+        super(state, predicate, action, () -> tickRate);
     }
 
     /**
@@ -43,7 +43,7 @@ public class AITarget extends TickingTransition<IAIState>
       @NotNull final Supplier<IAIState> action,
       final int tickRate)
     {
-        super(predicate, action, tickRate);
+        super(predicate, action, () -> tickRate);
     }
 
     /**
@@ -68,5 +68,10 @@ public class AITarget extends TickingTransition<IAIState>
     public AITarget(@NotNull final IAIState state, @NotNull final Supplier<IAIState> action, final int tickRate)
     {
         this(state, () -> true, action, tickRate);
+    }
+
+    public AITarget(@NotNull final IAIState state, @NotNull final Supplier<IAIState> action, final Supplier<Integer> tickRate)
+    {
+        super(state, () -> true, action, tickRate);
     }
 }
