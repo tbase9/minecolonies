@@ -5,8 +5,8 @@ import com.minecolonies.api.colony.requestsystem.request.IRequest;
 import com.minecolonies.api.colony.requestsystem.requestable.IConcreteDeliverable;
 import com.minecolonies.api.colony.requestsystem.requestable.IDeliverable;
 import com.minecolonies.api.colony.requestsystem.token.IToken;
+import com.minecolonies.api.tileentities.AbstractTileEntityWareHouse;
 import com.minecolonies.coremod.colony.requestsystem.resolvers.core.AbstractWarehouseRequestResolver;
-import com.minecolonies.coremod.tileentities.TileEntityWareHouse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -24,7 +24,7 @@ public class WarehouseRequestResolver extends AbstractWarehouseRequestResolver
     }
 
     @Override
-    protected boolean internalCanResolve(final Set<TileEntityWareHouse> wareHouses, final IRequest<? extends IDeliverable> requestToCheck)
+    protected boolean internalCanResolve(final Set<AbstractTileEntityWareHouse> wareHouses, final IRequest<? extends IDeliverable> requestToCheck)
     {
         if(requestToCheck.getRequest() instanceof IConcreteDeliverable)
         {

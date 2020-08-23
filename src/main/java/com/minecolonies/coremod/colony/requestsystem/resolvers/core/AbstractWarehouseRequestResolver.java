@@ -2,6 +2,7 @@ package com.minecolonies.coremod.colony.requestsystem.resolvers.core;
 
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
+import com.minecolonies.api.colony.buildings.workerbuildings.IWareHouse;
 import com.minecolonies.api.colony.requestsystem.location.ILocation;
 import com.minecolonies.api.colony.requestsystem.manager.IRequestManager;
 import com.minecolonies.api.colony.requestsystem.request.IRequest;
@@ -10,15 +11,16 @@ import com.minecolonies.api.colony.requestsystem.requestable.IDeliverable;
 import com.minecolonies.api.colony.requestsystem.requestable.deliveryman.Delivery;
 import com.minecolonies.api.colony.requestsystem.requester.IRequester;
 import com.minecolonies.api.colony.requestsystem.token.IToken;
+import com.minecolonies.api.tileentities.AbstractTileEntityWareHouse;
 import com.minecolonies.api.util.ItemStackUtils;
 import com.minecolonies.api.util.Log;
 import com.minecolonies.api.util.Tuple;
 import com.minecolonies.api.util.constant.TranslationConstants;
 import com.minecolonies.api.util.constant.TypeConstants;
 import com.minecolonies.coremod.colony.Colony;
+import com.minecolonies.coremod.colony.buildings.AbstractBuilding;
 import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingWareHouse;
 import com.minecolonies.coremod.colony.requestsystem.requesters.BuildingBasedRequester;
-import com.minecolonies.coremod.tileentities.TileEntityWareHouse;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -71,7 +73,7 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
      * @param requestToCheck
      * @return
      */
-    protected abstract boolean internalCanResolve(final Set<TileEntityWareHouse> wareHouses, final IRequest<? extends IDeliverable> requestToCheck);
+    protected abstract boolean internalCanResolve(final Set<AbstractTileEntityWareHouse> wareHouses, final IRequest<? extends IDeliverable> requestToCheck);
 
     @Override
     public boolean canResolveRequest(@NotNull final IRequestManager manager, final IRequest<? extends IDeliverable> requestToCheck)
@@ -94,7 +96,7 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
             }
 
             final Colony colony = (Colony) manager.getColony();
-            final Set<TileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
+            final Set<AbstractTileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
             wareHouses.removeIf(Objects::isNull);
 
             try
@@ -158,11 +160,11 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
 
         final Colony colony = (Colony) manager.getColony();
 
-        final Set<TileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
+        final Set<AbstractTileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
 
         final int totalRequested = request.getRequest().getCount();
         int totalAvailable = 0;
-        for (final TileEntityWareHouse tile : wareHouses)
+        for (final AbstractTileEntityWareHouse tile : wareHouses)
         {
             final List<Tuple<ItemStack, BlockPos>> inv = tile.getMatchingItemStacksInWarehouse(itemStack -> request.getRequest().matches(itemStack));
             for (final Tuple<ItemStack, BlockPos> stack : inv)
@@ -200,13 +202,13 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
         }
 
         final Colony colony = (Colony) manager.getColony();
-        final Set<TileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
+        final Set<AbstractTileEntityWareHouse> wareHouses = getWareHousesInColony(colony);
 
         List<IRequest<?>> deliveries = Lists.newArrayList();
         int remainingCount = completedRequest.getRequest().getCount();
 
         tileentities:
-        for (final TileEntityWareHouse wareHouse : wareHouses)
+        for (final AbstractTileEntityWareHouse wareHouse : wareHouses)
         {
             final List<Tuple<ItemStack, BlockPos>> targetStacks = wareHouse.getMatchingItemStacksInWarehouse(itemStack -> completedRequest.getRequest().matches(itemStack));
             for (final Tuple<ItemStack, BlockPos> tuple : targetStacks)
@@ -260,11 +262,11 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
      * @param colony
      * @return
      */
-    protected static Set<TileEntityWareHouse> getWareHousesInColony(final Colony colony)
+    protected static Set<AbstractTileEntityWareHouse> getWareHousesInColony(final Colony colony)
     {
         return colony.getBuildingManager().getBuildings().values().stream()
-                 .filter(building -> building instanceof BuildingWareHouse)
-                 .map(building -> (TileEntityWareHouse) building.getTileEntity())
+                 .filter(building -> building instanceof IWareHouse && building instanceof AbstractBuilding)
+                 .map(building -> (AbstractTileEntityWareHouse) building.getTileEntity())
                  .collect(Collectors.toSet());
     }
 
