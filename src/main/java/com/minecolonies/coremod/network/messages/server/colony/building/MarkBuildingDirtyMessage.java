@@ -42,6 +42,9 @@ public class MarkBuildingDirtyMessage extends AbstractBuildingServerMessage<IBui
     @Override
     protected void onExecute(final NetworkEvent.Context ctxIn, final boolean isLogicalServer, final IColony colony, final IBuilding building)
     {
-        building.getTileEntity().markDirty();
+        if (building.getTileEntity() != null)
+        {
+            building.getTileEntity().markDirty();
+        }
     }
 }

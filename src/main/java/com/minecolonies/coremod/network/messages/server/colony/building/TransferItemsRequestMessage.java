@@ -12,6 +12,7 @@ import com.minecolonies.coremod.network.messages.server.AbstractBuildingServerMe
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -95,6 +96,12 @@ public class TransferItemsRequestMessage extends AbstractBuildingServerMessage<I
             return;
         }
 
+        final TileEntity te = building.getTileEntity();
+        if (te == null)
+        {
+            return;
+        }
+
         final boolean isCreative = player.isCreative();
         // Inventory content before
         Map<ItemStorage, ItemStorage> previousContent = null;
@@ -107,7 +114,7 @@ public class TransferItemsRequestMessage extends AbstractBuildingServerMessage<I
         {
             if (MineColonies.getConfig().getCommon().debugInventories.get())
             {
-                previousContent = InventoryUtils.getAllItemsForProviders(building.getTileEntity(), new InvWrapper(player.inventory));
+                previousContent = InventoryUtils.getAllItemsForProviders(te, new InvWrapper(player.inventory));
             }
 
             amountToTake = Math.min(quantity, InventoryUtils.getItemCountInItemHandler(new InvWrapper(player.inventory),
@@ -123,7 +130,7 @@ public class TransferItemsRequestMessage extends AbstractBuildingServerMessage<I
             itemStackToTake.setCount(insertAmount);
             tempAmount -= insertAmount;
 
-            remainingItemStack = InventoryUtils.addItemStackToProviderWithResult(building.getTileEntity(), itemStackToTake);
+            remainingItemStack = InventoryUtils.addItemStackToProviderWithResult(te, itemStackToTake);
             if (!remainingItemStack.isEmpty())
             {
                 tempAmount += remainingItemStack.getCount();
@@ -134,7 +141,7 @@ public class TransferItemsRequestMessage extends AbstractBuildingServerMessage<I
         if (ItemStackUtils.isEmpty(remainingItemStack) || ItemStackUtils.getSize(remainingItemStack) != amountToTake)
         {
             //Only doing this at the moment as the additional chest do not detect new content
-            building.getTileEntity().markDirty();
+            te.markDirty();
         }
 
         if (ItemStackUtils.isEmpty(remainingItemStack) || ItemStackUtils.getSize(remainingItemStack) != amountToTake)
@@ -160,7 +167,7 @@ public class TransferItemsRequestMessage extends AbstractBuildingServerMessage<I
 
         if (!isCreative && previousContent != null && MineColonies.getConfig().getCommon().debugInventories.get())
         {
-            InventoryUtils.doStorageSetsMatch(previousContent, InventoryUtils.getAllItemsForProviders(building.getTileEntity(), new InvWrapper(player.inventory)), true);
+            InventoryUtils.doStorageSetsMatch(previousContent, InventoryUtils.getAllItemsForProviders(te, new InvWrapper(player.inventory)), true);
         }
     }
 }

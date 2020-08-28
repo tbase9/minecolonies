@@ -8,6 +8,7 @@ import com.minecolonies.api.colony.requestsystem.request.IRequest;
 import com.minecolonies.api.colony.requestsystem.requestable.Stack;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.inventory.InventoryCitizen;
+import com.minecolonies.api.tileentities.TileEntityColonyBuilding;
 import com.minecolonies.api.util.BlockPosUtil;
 import com.minecolonies.api.util.InventoryUtils;
 import com.minecolonies.api.util.ItemStackUtils;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -385,9 +387,10 @@ public abstract class AbstractBuildingStructureBuilder extends AbstractBuildingW
                       stack -> ItemStackUtils.compareItemStacksIgnoreStackSize(stack, resource.getItemStack(), true, true)));
                 }
 
-                if (getTileEntity() != null)
+                final TileEntity te = getTileEntity();
+                if (te != null)
                 {
-                    resource.addAvailable(InventoryUtils.getItemCountInItemHandler(this.getCapability(ITEM_HANDLER_CAPABILITY, null).orElseGet(null),
+                    resource.addAvailable(InventoryUtils.getItemCountInItemHandler(te.getCapability(ITEM_HANDLER_CAPABILITY, null).orElseGet(null),
                       stack -> ItemStackUtils.compareItemStacksIgnoreStackSize(stack, resource.getItemStack(), true, true)));
                 }
             }
@@ -635,41 +638,45 @@ public abstract class AbstractBuildingStructureBuilder extends AbstractBuildingW
             return;
         }
 
-        final ImmutableList<IRequest<? extends Stack>> list = getOpenRequestsOfType(worker, TypeToken.of(Stack.class));
-        for (final Map.Entry<String, Integer> entry : requiredResources.getResourceMap().entrySet())
+        final TileEntity te = getTileEntity();
+        if (te instanceof TileEntityColonyBuilding)
         {
-            final ItemStorage itemStack = neededResources.get(entry.getKey());
-            if (itemStack == null)
+            final ImmutableList<IRequest<? extends Stack>> list = getOpenRequestsOfType(worker, TypeToken.of(Stack.class));
+            for (final Map.Entry<String, Integer> entry : requiredResources.getResourceMap().entrySet())
             {
-                continue;
-            }
-
-            boolean hasOpenRequest = false;
-            int count = InventoryUtils.getItemCountInItemHandler(getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElseGet(null),
-              stack -> stack.isItemEqual(itemStack.getItemStack()));
-
-            int totalAmount = neededResources.containsKey(entry.getKey()) ? neededResources.get(entry.getKey()).getAmount() : 0;
-            int workerInvCount = InventoryUtils.getItemCountInItemHandler(worker.getInventory(), stack -> stack.isItemEqual(itemStack.getItemStack()));
-            if ((workerInv && (count + workerInvCount) < entry.getValue())
-                  || (count < entry.getValue() && (count + workerInvCount) < totalAmount))
-            {
-                int requestCount = entry.getValue() - count - (workerInv ? workerInvCount : 0);
-                if (requestCount > 0)
+                final ItemStorage itemStack = neededResources.get(entry.getKey());
+                if (itemStack == null)
                 {
-                    for (final IRequest<? extends Stack> request : list)
+                    continue;
+                }
+
+                boolean hasOpenRequest = false;
+                int count = InventoryUtils.getItemCountInItemHandler(te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElseGet(null),
+                  stack -> stack.isItemEqual(itemStack.getItemStack()));
+
+                int totalAmount = neededResources.containsKey(entry.getKey()) ? neededResources.get(entry.getKey()).getAmount() : 0;
+                int workerInvCount = InventoryUtils.getItemCountInItemHandler(worker.getInventory(), stack -> stack.isItemEqual(itemStack.getItemStack()));
+                if ((workerInv && (count + workerInvCount) < entry.getValue())
+                      || (count < entry.getValue() && (count + workerInvCount) < totalAmount))
+                {
+                    int requestCount = entry.getValue() - count - (workerInv ? workerInvCount : 0);
+                    if (requestCount > 0)
                     {
-                        if (request.getRequest().getStack().isItemEqual(itemStack.getItemStack()))
+                        for (final IRequest<? extends Stack> request : list)
                         {
-                            hasOpenRequest = true;
+                            if (request.getRequest().getStack().isItemEqual(itemStack.getItemStack()))
+                            {
+                                hasOpenRequest = true;
+                                break;
+                            }
+                        }
+                        if (hasOpenRequest)
+                        {
                             break;
                         }
-                    }
-                    if (hasOpenRequest)
-                    {
-                        break;
-                    }
 
-                    worker.createRequestAsync(new Stack(itemStack.getItemStack(), requestCount * getResourceBatchMultiplier(), requestCount));
+                        worker.createRequestAsync(new Stack(itemStack.getItemStack(), requestCount * getResourceBatchMultiplier(), requestCount));
+                    }
                 }
             }
         }

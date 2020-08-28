@@ -4,7 +4,6 @@ import com.minecolonies.api.blocks.AbstractBlockHut;
 import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.colony.buildings.IBuildingContainer;
-import com.minecolonies.api.tileentities.AbstractTileEntityColonyBuilding;
 import com.minecolonies.api.tileentities.TileEntityColonyBuilding;
 import com.minecolonies.api.tileentities.TileEntityRack;
 import com.minecolonies.coremod.blocks.BlockMinecoloniesRack;
@@ -27,8 +26,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +49,6 @@ public abstract class AbstractBuildingContainer extends AbstractCitizenAssignabl
      * List of items the worker should keep. With the quantity and if he should keep it in the inventory as well.
      */
     protected final Map<Predicate<ItemStack>, Tuple<Integer, Boolean>> keepX = new HashMap<>();
-
-    /**
-     * The tileEntity of the building.
-     */
-    protected AbstractTileEntityColonyBuilding tileEntity;
 
     /**
      * Priority of the building in the pickUpList. This is the unscaled value (mainly for a more intuitive GUI).
@@ -185,21 +177,20 @@ public abstract class AbstractBuildingContainer extends AbstractCitizenAssignabl
         }
     }
 
-    @Override
-    public void setTileEntity(final AbstractTileEntityColonyBuilding te)
-    {
-        tileEntity = te;
-    }
-
     //------------------------- !Start! Capabilities handling for minecolonies buildings -------------------------//
 
-    @Nonnull
+    @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> cap, @Nullable final Direction side)
+    public <T> LazyOptional<T> getCapability(@NotNull final Capability<T> cap, final Direction direction)
     {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && getTileEntity() != null)
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
         {
-            return tileEntity.getCapability(cap, side);
+            final TileEntity tileEntity = getTileEntity();
+            if (tileEntity == null)
+            {
+                return LazyOptional.empty();
+            }
+            return getTileEntity().getCapability(cap, direction);
         }
         return LazyOptional.empty();
     }

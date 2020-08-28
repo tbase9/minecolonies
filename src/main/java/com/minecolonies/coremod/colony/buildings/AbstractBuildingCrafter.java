@@ -105,12 +105,14 @@ public abstract class AbstractBuildingCrafter extends AbstractBuildingWorker imp
                     {
                         for (final ItemStorage itemStorage : recipeStorage.getCleanedInput())
                         {
-                            int amount = itemStorage.getAmount() * request.getRequest().getCount();
-                            if (recipeOutputs.containsKey(itemStorage))
+                            final ItemStorage copy = new ItemStorage(itemStorage.getItemStack().copy(), itemStorage.getAmount(), itemStorage.ignoreDamageValue());
+
+                            int amount = copy.getAmount() * request.getRequest().getCount();
+                            if (recipeOutputs.containsKey(copy))
                             {
-                                amount += recipeOutputs.get(itemStorage).getA();
+                                amount += recipeOutputs.get(copy).getA();
                             }
-                            recipeOutputs.put(itemStorage, new Tuple<>(amount, false));
+                            recipeOutputs.put(copy, new Tuple<>(amount, false));
                         }
 
                         final ItemStorage output = new ItemStorage(recipeStorage.getPrimaryOutput());

@@ -160,7 +160,7 @@ public class EntityMercenaryAI extends Goal
                 // Attempt to steal!
                 final IBuilding building = entity.getColony().getBuildingManager().getBuilding(currentPatrolPos);
 
-                if (building != null)
+                if (building != null && building.getTileEntity() != null)
                 {
                     final List<IItemHandler> handlers = new ArrayList<>(InventoryUtils.getItemHandlersFromProvider(building.getTileEntity()));
                     final IItemHandler handler = handlers.get(rand.nextInt(handlers.size()));

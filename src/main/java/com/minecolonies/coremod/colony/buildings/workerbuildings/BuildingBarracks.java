@@ -163,12 +163,16 @@ public class BuildingBarracks extends AbstractBuilding
         {
             if (!colony.getRaiderManager().areSpiesEnabled())
             {
-                final int amount = InventoryUtils.getItemCountInItemHandler(this.getTileEntity().getInventory(), Items.GOLD_INGOT);
-                if (amount >= SPIES_GOLD_COST)
+                final TileEntity tileEntity = this.getTileEntity();
+                if (tileEntity instanceof TileEntityColonyBuilding)
                 {
-                    InventoryUtils.removeStackFromItemHandler(tileEntity.getInventory(), new ItemStack(Items.GOLD_INGOT, SPIES_GOLD_COST), SPIES_GOLD_COST);
-                    colony.getRaiderManager().setSpiesEnabled(true);
-                    colony.markDirty();
+                    final int amount = InventoryUtils.getItemCountInItemHandler(((TileEntityColonyBuilding) tileEntity).getInventory(), Items.GOLD_INGOT);
+                    if (amount >= SPIES_GOLD_COST)
+                    {
+                        InventoryUtils.removeStackFromItemHandler(((TileEntityColonyBuilding) tileEntity).getInventory(), new ItemStack(Items.GOLD_INGOT, SPIES_GOLD_COST), SPIES_GOLD_COST);
+                        colony.getRaiderManager().setSpiesEnabled(true);
+                        colony.markDirty();
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ import com.minecolonies.api.crafting.IRecipeStorage;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.entity.citizen.Skill;
 import com.minecolonies.api.inventory.container.ContainerCrafting;
+import com.minecolonies.api.tileentities.TileEntityColonyBuilding;
 import com.minecolonies.api.util.InventoryUtils;
 import com.minecolonies.api.util.ItemStackUtils;
 import com.minecolonies.api.util.Log;
@@ -369,7 +370,7 @@ public abstract class AbstractBuildingWorker extends AbstractBuilding implements
                 // Check against excluded products
                 if (input.getAmount() > 1 && ItemTags.getCollection().getOrCreate(reducableIngredients).contains(input.getItem()))
                 {
-                    reducedItem = input.getItemStack();
+                    reducedItem = input.getItemStack().copy();
                     reducedItem.setCount(input.getAmount() - 1);
                     newRecipe.add(reducedItem);
                     didReduction = true;
@@ -459,7 +460,12 @@ public abstract class AbstractBuildingWorker extends AbstractBuilding implements
         {
             handlers.add(workerEntity.getInventory());
         }
-        handlers.add(getTileEntity().getInventory());
+
+        final TileEntity tileEntity = getTileEntity();
+        if (tileEntity != null)
+        {
+            handlers.add(((TileEntityColonyBuilding) tileEntity).getInventory());
+        }
 
         for (final BlockPos pos : getAdditionalCountainers())
         {

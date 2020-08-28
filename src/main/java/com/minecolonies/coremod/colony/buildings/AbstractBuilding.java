@@ -50,7 +50,6 @@ import com.minecolonies.coremod.research.MultiplierModifierResearchEffect;
 import com.minecolonies.coremod.util.ChunkDataHelper;
 import com.minecolonies.coremod.util.ColonyUtils;
 import io.netty.buffer.Unpooled;
-import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -799,21 +798,17 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
         }
     }
 
+    @Nullable
     @Override
     public AbstractTileEntityColonyBuilding getTileEntity()
     {
-        if ((tileEntity == null)
-              && colony != null
-              && colony.getWorld() != null
-              && getPosition() != null
-              && WorldUtil.isBlockLoaded(colony.getWorld(), getPosition())
-              && !(colony.getWorld().getBlockState(getPosition()).getBlock() instanceof AirBlock)
+        if (WorldUtil.isBlockLoaded(colony.getWorld(), getPosition())
               && colony.getWorld().getBlockState(this.getPosition()).getBlock() instanceof AbstractBlockHut)
         {
             final TileEntity te = getColony().getWorld().getTileEntity(getPosition());
             if (te instanceof TileEntityColonyBuilding)
             {
-                tileEntity = (TileEntityColonyBuilding) te;
+                final TileEntityColonyBuilding tileEntity = (TileEntityColonyBuilding) te;
                 if (tileEntity.getBuilding() == null)
                 {
                     tileEntity.setColony(colony);
@@ -827,11 +822,10 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
 
                 final AbstractTileEntityColonyBuilding tileEntityColonyBuilding = new TileEntityColonyBuilding(MinecoloniesTileEntities.BUILDING);
                 colony.getWorld().setTileEntity(getPosition(), tileEntityColonyBuilding);
-                this.tileEntity = tileEntityColonyBuilding;
             }
         }
 
-        return tileEntity;
+        return null;
     }
 
     /**

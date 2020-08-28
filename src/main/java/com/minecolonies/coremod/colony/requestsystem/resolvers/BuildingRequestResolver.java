@@ -17,6 +17,7 @@ import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingCook;
 import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingWareHouse;
 import com.minecolonies.coremod.colony.requestsystem.resolvers.core.AbstractBuildingDependentRequestResolver;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -191,7 +192,11 @@ public class BuildingRequestResolver extends AbstractBuildingDependentRequestRes
       @NotNull final AbstractBuilding building)
     {
         final Set<ICapabilityProvider> tileEntities = Sets.newHashSet();
-        tileEntities.add(building.getTileEntity());
+        final TileEntity te = building.getTileEntity();
+        if (te != null)
+        {
+            tileEntities.add(building.getTileEntity());
+        }
         tileEntities.removeIf(Objects::isNull);
         return tileEntities;
     }

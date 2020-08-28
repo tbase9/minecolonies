@@ -11,6 +11,7 @@ import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.colony.requestsystem.token.IToken;
 import com.minecolonies.api.crafting.IRecipeStorage;
 import com.minecolonies.api.entity.citizen.Skill;
+import com.minecolonies.api.tileentities.AbstractTileEntityColonyBuilding;
 import com.minecolonies.api.util.ItemStackUtils;
 import com.minecolonies.api.util.constant.ToolType;
 import com.minecolonies.coremod.Network;
@@ -159,9 +160,10 @@ public class BuildingPlantation extends AbstractBuildingCrafter
     public List<BlockPos> getPosForPhase(final World world)
     {
         final List<BlockPos> filtered = new ArrayList<>();
-        if (tileEntity != null && !tileEntity.getPositionedTags().isEmpty())
+        final AbstractTileEntityColonyBuilding te = getTileEntity();
+        if (te != null && !te.getPositionedTags().isEmpty())
         {
-            for (final Map.Entry<BlockPos, List<String>> entry : tileEntity.getPositionedTags().entrySet())
+            for (final Map.Entry<BlockPos, List<String>> entry : te.getPositionedTags().entrySet())
             {
                 if ((entry.getValue().contains("bamboo") && currentPhase == Items.BAMBOO)
                       || (entry.getValue().contains("sugar") && currentPhase == Items.SUGAR_CANE)

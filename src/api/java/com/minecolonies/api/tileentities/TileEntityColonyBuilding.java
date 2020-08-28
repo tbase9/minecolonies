@@ -153,22 +153,6 @@ public class TileEntityColonyBuilding extends AbstractTileEntityColonyBuilding i
             {
                 colony = IColonyManager.getInstance().getColonyByWorld(colonyId, getWorld());
             }
-
-            // It's most probably previewed building, please don't spam it here.
-            if (colony == null && !getWorld().isRemote)
-            {
-                //log on the server
-                //Log.getLogger().info(String.format("TileEntityColonyBuilding at %s:[%d,%d,%d] had colony.",getWorld().getWorldInfo().getWorldName(), pos.getX(), pos.getY(), pos.getZ()));
-            }
-        }
-
-        if (building == null && colony != null)
-        {
-            building = colony.getBuildingManager().getBuilding(getPosition());
-            if (building != null && (getWorld() == null || !getWorld().isRemote))
-            {
-                building.setTileEntity(this);
-            }
         }
     }
 
@@ -273,15 +257,6 @@ public class TileEntityColonyBuilding extends AbstractTileEntityColonyBuilding i
         final CompoundNBT compound = packet.getNbtCompound();
         colonyId = compound.getInt(TAG_COLONY);
         super.onDataPacket(net, packet);
-    }
-
-    @Override
-    public void onLoad()
-    {
-        if (building != null)
-        {
-            building.setTileEntity(null);
-        }
     }
 
     /**

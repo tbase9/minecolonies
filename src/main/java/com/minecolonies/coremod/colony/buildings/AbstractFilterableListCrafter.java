@@ -104,12 +104,14 @@ public abstract class AbstractFilterableListCrafter extends AbstractFilterableLi
                     {
                         for (final ItemStorage itemStorage : recipeStorage.getCleanedInput())
                         {
-                            int amount = itemStorage.getAmount();
-                            if (recipeOutputs.containsKey(itemStorage))
+                            final ItemStorage copy = new ItemStorage(itemStorage.getItemStack().copy(), itemStorage.getAmount(), itemStorage.ignoreDamageValue());
+
+                            int amount = copy.getAmount();
+                            if (recipeOutputs.containsKey(copy))
                             {
-                                amount = recipeOutputs.get(itemStorage).getA() + itemStorage.getAmount();
+                                amount = recipeOutputs.get(copy).getA() + copy.getAmount();
                             }
-                            recipeOutputs.put(itemStorage, new Tuple<>(amount, false));
+                            recipeOutputs.put(copy, new Tuple<>(amount, false));
                         }
 
                         final ItemStorage output = new ItemStorage(recipeStorage.getPrimaryOutput());

@@ -12,7 +12,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface IBuildingContainer extends ICitizenAssignable, ICapabilityProvider
@@ -84,14 +83,7 @@ public interface IBuildingContainer extends ICitizenAssignable, ICapabilityProvi
      */
     AbstractTileEntityColonyBuilding getTileEntity();
 
-    /**
-     * Sets the tile entity for the building.
-     *
-     * @param te The tileentity
-     */
-    void setTileEntity(AbstractTileEntityColonyBuilding te);
-
-    @Nonnull
+    @NotNull
     @Override
-    <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, final Direction direction);
+    <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, final Direction direction);
 }

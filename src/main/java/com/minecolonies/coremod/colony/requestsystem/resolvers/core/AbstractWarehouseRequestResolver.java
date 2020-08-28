@@ -2,6 +2,7 @@ package com.minecolonies.coremod.colony.requestsystem.resolvers.core;
 
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
+import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.colony.requestsystem.location.ILocation;
 import com.minecolonies.api.colony.requestsystem.manager.IRequestManager;
 import com.minecolonies.api.colony.requestsystem.request.IRequest;
@@ -10,6 +11,7 @@ import com.minecolonies.api.colony.requestsystem.requestable.IDeliverable;
 import com.minecolonies.api.colony.requestsystem.requestable.deliveryman.Delivery;
 import com.minecolonies.api.colony.requestsystem.requester.IRequester;
 import com.minecolonies.api.colony.requestsystem.token.IToken;
+import com.minecolonies.api.tileentities.TileEntityColonyBuilding;
 import com.minecolonies.api.util.ItemStackUtils;
 import com.minecolonies.api.util.Log;
 import com.minecolonies.api.util.Tuple;
@@ -20,16 +22,14 @@ import com.minecolonies.coremod.colony.buildings.workerbuildings.BuildingWareHou
 import com.minecolonies.coremod.colony.requestsystem.requesters.BuildingBasedRequester;
 import com.minecolonies.coremod.tileentities.TileEntityWareHouse;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.minecolonies.api.colony.requestsystem.requestable.deliveryman.AbstractDeliverymanRequestable.getDefaultDeliveryPriority;
@@ -257,15 +257,24 @@ public abstract class AbstractWarehouseRequestResolver extends AbstractRequestRe
 
     /**
      * Use to get the set of all warehouses
-     * @param colony
-     * @return
+     * @param colony the coloyn they belong to.
+     * @return the set.
      */
     protected static Set<TileEntityWareHouse> getWareHousesInColony(final Colony colony)
     {
-        return colony.getBuildingManager().getBuildings().values().stream()
-                 .filter(building -> building instanceof BuildingWareHouse)
-                 .map(building -> (TileEntityWareHouse) building.getTileEntity())
-                 .collect(Collectors.toSet());
+        final Set<TileEntityWareHouse> set = new HashSet<>();
+        for (final IBuilding building : colony.getBuildingManager().getBuildings().values())
+        {
+            if (building instanceof BuildingWareHouse)
+            {
+                final TileEntity te = building.getTileEntity();
+                if (te != null)
+                {
+                    set.add((TileEntityWareHouse) te);
+                }
+            }
+        }
+        return set;
     }
 
     @Override
