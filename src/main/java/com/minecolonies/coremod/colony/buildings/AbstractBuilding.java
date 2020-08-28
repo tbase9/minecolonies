@@ -814,6 +814,7 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
                     tileEntity.setColony(colony);
                     tileEntity.setBuilding(this);
                 }
+                return (AbstractTileEntityColonyBuilding) te;
             }
             else
             {
@@ -822,6 +823,8 @@ public abstract class AbstractBuilding extends AbstractBuildingContainer impleme
 
                 final AbstractTileEntityColonyBuilding tileEntityColonyBuilding = new TileEntityColonyBuilding(MinecoloniesTileEntities.BUILDING);
                 colony.getWorld().setTileEntity(getPosition(), tileEntityColonyBuilding);
+
+                return tileEntityColonyBuilding;
             }
         }
 
