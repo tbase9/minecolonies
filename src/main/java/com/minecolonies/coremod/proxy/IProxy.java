@@ -72,6 +72,13 @@ public interface IProxy
     void openBannerRallyGuardsWindow(final ItemStack banner);
 
     /**
+     * Opens a rally banner window.
+     *
+     * @param banner The banner to edit in the GUI
+     */
+    void openBannerRallyHunterWindow(final ItemStack banner);
+
+    /**
      * Opens a clipboard window.
      *
      * @param colonyView the colony id.

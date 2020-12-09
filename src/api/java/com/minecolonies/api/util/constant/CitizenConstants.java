@@ -154,6 +154,10 @@ public final class CitizenConstants
      */
     public static final int    MAX_GUARD_CALL_RANGE       = 90000;
     /**
+     * The max squaredistance a citizen can call a guard to help, 300 blocks
+     */
+    public static final int    MAX_HUNTER_CALL_RANGE       = 90000;
+    /**
      * Happiness penalty for citizen death.
      */
     public static final double CITIZEN_DEATH_PENALTY      = 0.2;
@@ -229,6 +233,11 @@ public final class CitizenConstants
     public static final String GUARD_HEALTH_MOD_BUILDING_NAME = "MinecoloniesGuardBuildingHP";
 
     /**
+     * The Guard Building health modifier Name
+     */
+    public static final String HUNTER_HEALTH_MOD_BUILDING_NAME = "MinecoloniesHunterBuildingHP";
+
+    /**
      * The Research health modifier name.
      */
     public static final String RESEARCH_BONUS_MULTIPLIER = "ResearchSpeedBonus";
@@ -244,9 +253,19 @@ public final class CitizenConstants
     public static final String GUARD_HEALTH_MOD_CONFIG_NAME = "MinecoloniesGuardConfigHP";
 
     /**
+     * The Config guard health modifier name
+     */
+    public static final String HUNTER_HEALTH_MOD_CONFIG_NAME = "MinecoloniesHunterConfigHP";
+
+    /**
      * The guard's level based health bonus mod's name
      */
     public static final String GUARD_HEALTH_MOD_LEVEL_NAME = "MinecoloniesGuardLevelHealth";
+
+//    /**
+//     * The guard's level based health bonus mod's name
+//     */
+//    public static final String HUNTER_HEALTH_MOD_LEVEL_NAME = "MinecoloniesHunterLevelHealth";
 
     /**
      * Eating particle count.
