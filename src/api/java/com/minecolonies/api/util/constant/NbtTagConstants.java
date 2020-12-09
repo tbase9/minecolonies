@@ -51,6 +51,8 @@ public final class NbtTagConstants
     public static final String TAG_FARMER_CARROTS         = "carrots";
     public static final String TAG_GUARD_STATISTICS       = "guardStatistics";
     public static final String TAG_GUARD_MOBS             = "mobs";
+    public static final String TAG_HUNTER_STATISTICS      = "hunterStatistics";
+    public static final String TAG_HUNTER_MOBS            = "mobsHunter";
     public static final String TAG_BUILDER_STATISTICS     = "builderStatistics";
     public static final String TAG_BUILDER_HUTS           = "huts";
     public static final String TAG_FISHERMAN_STATISTICS   = "fishermanStatistics";
@@ -559,6 +561,11 @@ public final class NbtTagConstants
      */
     public static final String TAG_RALLIED_GUARDTOWERS = "guardtowerpositions";
 
+    /**
+     * BannerRallyGuards tags
+     */
+    public static final String TAG_RALLIED_HUNTERHUT = "hunterhutpositions";
+
     // --------------------- Chat handling tags --------------------- //
 
     /**
@@ -646,6 +653,7 @@ public final class NbtTagConstants
     public static final String TAG_PARENT_POND   = "parentpond";
     public static final String TAG_DECONSTRUCTED = "deconstructed";
     public static final String TAG_GUARD_NEARBY  = "guardnearby";
+    public static final String TAG_HUNTER_NEARBY = "hunternearby";
     public static final String TAG_RESPAWN_POS   = "nextrespawnpos";
 
     /**

@@ -198,6 +198,28 @@ public final class TranslationConstants
     @NonNls
     public static final String COM_MINECOLONIES_BANNER_RALLY_GUARDS_GUI_DISMISS                     = "com.minecolonies.coremod.item.bannerrallyguards.gui.dismiss";
     @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_SELECTED                        = "com.minecolonies.coremod.item.bannerrallyhunter.selected";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_DESELECTED                      = "com.minecolonies.coremod.item.bannerrallyhunter.deselected";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_TOOLTIP                         = "com.minecolonies.coremod.item.bannerrallyhunter.tooltip";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_TOOLTIP_EMPTY                   = "com.minecolonies.coremod.item.bannerrallyhunter.tooltipempty";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_TOOLTIP_RALLY                   = "com.minecolonies.coremod.item.bannerrallyhunter.rally";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_TOOLTIP_GUI                     = "com.minecolonies.coremod.item.bannerrallyhunter.gui";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_GUI_ERROR                       = "com.minecolonies.coremod.item.bannerrallyhunter.gui.error";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_GUI_TOWERMISSING                = "com.minecolonies.coremod.item.bannerrallyhunter.gui.towermissing";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_GUI_REMOVE                      = "com.minecolonies.coremod.item.bannerrallyhunter.gui.remove";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_GUI_RALLY                       = "com.minecolonies.coremod.item.bannerrallyhunter.gui.rally";
+    @NonNls
+    public static final String COM_MINECOLONIES_BANNER_RALLY_HUNTER_GUI_DISMISS                     = "com.minecolonies.coremod.item.bannerrallyhunter.gui.dismiss";
+    @NonNls
     public static final String COM_MINECOLONIES_COREMOD_SUGARY_BREAD_TOOLTIP_GUI                    = "com.minecolonies.coremod.item.sugary.bread.gui";
     @NonNls
     public static final String COM_MINECOLONIES_COREMOD_MILKY_BREAD_TOOLTIP_GUI                     = "com.minecolonies.coremod.item.milky.bread.gui";

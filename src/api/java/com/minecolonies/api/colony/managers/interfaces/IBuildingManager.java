@@ -214,6 +214,8 @@ public interface IBuildingManager
 
     void guardBuildingChangedAt(IBuilding guardBuilding, int newLevel);
 
+    void hunterBuildingChangedAt(IBuilding hunterBuilding, int newLevel);
+
     /**
      * Set the townhall building.
      *

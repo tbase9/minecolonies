@@ -106,7 +106,9 @@ public class ServerConfiguration extends AbstractConfiguration
     public final ForgeConfigSpec.BooleanValue rangerEnchants;
     public final ForgeConfigSpec.DoubleValue  rangerDamageMult;
     public final ForgeConfigSpec.DoubleValue  knightDamageMult;
+    public final ForgeConfigSpec.DoubleValue  hunterDamageMult;
     public final ForgeConfigSpec.DoubleValue  guardHealthMult;
+    public final ForgeConfigSpec.DoubleValue  hunterHealthMult;
     public final ForgeConfigSpec.BooleanValue pvp_mode;
     public final ForgeConfigSpec.IntValue     daysUntilPirateshipsDespawn;
     public final ForgeConfigSpec.IntValue     maxYForBarbarians;
@@ -127,6 +129,7 @@ public class ServerConfiguration extends AbstractConfiguration
 
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> enabledModTags;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> guardResourceLocations;
+    public final ForgeConfigSpec.ConfigValue<List<? extends String>> hunterResourceLocations;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> configListStudyItems;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> configListRecruitmentItems;
     public final ForgeConfigSpec.ConfigValue<List<? extends String>> luckyOres;
@@ -463,7 +466,9 @@ public class ServerConfiguration extends AbstractConfiguration
         rangerEnchants = defineBoolean(builder, "rangerenchants", true);
         rangerDamageMult = defineDouble(builder, "rangerdamagemult", 1.0, 0.1, 5.0);
         knightDamageMult = defineDouble(builder, "knightdamagemult", 1.0, 0.1, 5.0);
+        hunterDamageMult = defineDouble(builder, "hunterdamagemult", 1.0, 0.1, 5.0);
         guardHealthMult = defineDouble(builder, "guardhealthmult", 1.0, 0.1, 5.0);
+        hunterHealthMult = defineDouble(builder, "hunterhealthmult", 1.0, 0.1, 5.0);
         pvp_mode = defineBoolean(builder, "pvp_mode", false);
         daysUntilPirateshipsDespawn = defineInteger(builder, "daysuntilpirateshipsdespawn", 3, 1, 10);
         maxYForBarbarians = defineInteger(builder, "maxyforbarbarians", 200, 1, 500);
@@ -652,6 +657,11 @@ public class ServerConfiguration extends AbstractConfiguration
                    ("minecraft:slime",
                      "tconstruct:blueslime"),
           s -> s instanceof String);
+        hunterResourceLocations = defineList(builder, "hunterresourcelocations",
+                Arrays.asList
+                        ("minecraft:slime",
+                                "tconstruct:blueslime"),
+                s -> s instanceof String);
         configListStudyItems = defineList(builder, "configliststudyitems",
           Arrays.asList
                    ("minecraft:paper;400;100", "minecraft:book;600;10"),

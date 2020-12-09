@@ -227,6 +227,70 @@ public enum AIWorkerState implements IAIState
      */
     HELP_CITIZEN(false),
 
+      /*
+###Guard###
+    */
+
+    /**
+     * Decision state for hunter.
+     */
+    HUNTER_DECIDE(false),
+
+    /**
+     * Physically attack the target.
+     */
+    HUNTER_ATTACK_PHYSICAL(false),
+
+    /**
+     * Use a ranged attack against the target.
+     */
+    HUNTER_ATTACK_RANGED(false),
+
+    /**
+     * Allow the hunter to protect himself.
+     */
+    HUNTER_ATTACK_PROTECT(false),
+
+    /**
+     * Patrol through the village.
+     */
+    HUNTER_PATROL(true),
+
+    /**
+     * Sleeping on duty
+     */
+    HUNTER_SLEEP(false),
+
+    /**
+     * Wake up another hunter
+     */
+    HUNTER_WAKE(false),
+
+    /**
+     * Follow a player.
+     */
+    HUNTER_FOLLOW(true),
+
+    /**
+     * Guard a position.
+     */
+    HUNTER_GUARD(true),
+
+    /**
+     * Rally to a player.
+     */
+    HUNTER_RALLY(false),
+
+    /**
+     * Regen at the building.
+     */
+    HUNTER_REGEN(true),
+
+//    /**
+//     * Helping out a citizen in danger
+//     */
+//    HELP_CITIZEN(false),
+
     /*
 ###Deliveryman###
     */
